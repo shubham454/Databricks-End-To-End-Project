@@ -11,12 +11,12 @@ my_rules = {
     name = "dim_products_stg"
 )
 def dim_products_stg():
-  df = spark.readStream.table("db_dlt_proj.silver.products")
+  df = spark.readStream.option("skipChangeCommits", "true").table("db_dlt_proj.silver.products")
   return df
 
 @dlt.view()
 def dim_product_stg_view():
-  df = spark.readStream.table("dim_products_stg")
+  df = spark.readStream.option("skipChangeCommits", "true").table("dim_products_stg")
   return df
 
 dlt.create_streaming_table("dim_products")
